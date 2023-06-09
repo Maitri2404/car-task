@@ -20,5 +20,5 @@ router.post('/addSeller', seller);
 router.post('/buyCar', checkCity, transaction);
 
 router.get('/admin/getTotalSoldCar', getTotalSoldCar)
-
+console.log('test')
 module.exports = router;
