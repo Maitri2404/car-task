@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const checkCity = require('../middleware/middleware')
+const {checkCity} = require('../middleware/middleware')
 
 const {
   brand,
@@ -18,5 +18,7 @@ router.post('/addUser', user);
 router.post('/addSeller', seller);
 
 router.post('/buyCar', checkCity, transaction);
+
+router.get('/admin/getTotalSoldCar', getTotalSoldCar)
 
 module.exports = router;

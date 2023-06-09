@@ -31,42 +31,23 @@ function authenticateToken(req, res, next) {
   });
 }
 
-function isAuthorized(role, path, method) {
-  if (role === 'admin' || path.startsWith('/user')) {
+function isAdmin(role, path, method) {
+  if (role === 'admin' || path.startsWith('/admin')) {
     return true;
   }
 
   return false;
 }
 
-
-// async function checkCity(req,res,next){
-//   try{
-//   const { sSellerName, sUserName} = req.body
-//   const seller = await Seller.findOne({sSellerName: sSellerName})
-//   console.log(seller)
-//   const user = await User.findOne({sUserName : sUserName})
-//   console.log(user)
-//   if(seller.sSellerCity === user.sUserCity){
-//     next() 
-//   }
-//   else {
-//     return res.status(404).json({error:'seller and user are not from the same city'})
-//   }
-
-// } catch(err) {
-//   console.log(err.message)
-//  }
-// }
-
 async function checkCity(req, res, next) {
   try {
-    const { sSellerName, sUserName } = req.body;
-    const seller = await Seller.findOne({ sSellerName: sSellerName });
-    console.log(seller);
-    const user = await User.findOne({ sUserName: sUserName });
-    console.log(user);
-    if (seller.sSellerCity === user.sSellerCity) {
+    const { iSellerId, iUserId } = req.body;
+    console.log(req.body)
+    const seller = await Seller.findOne({ sSellerName: iSellerId });
+    // console.log("seller: ",seller);
+    const user = await User.findOne({ sUserName: iUserId });
+    // console.log("user: ",user);
+    if (seller.sSellerCity === user.sUserCity) {
       next();
     } else {
       return res.status(404).json({ error: 'Seller and user are not from the same city' });
@@ -78,4 +59,4 @@ async function checkCity(req, res, next) {
 }
 
 
-module.exports = checkCity;
+module.exports = { checkCity, isAdmin };
